@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ট্রিট কুইজ 🍔</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff1f5;--card:#fff;--text:#3b1a2a;--accent:#e83e8c;--accent2:#ffd1e3;--shadow:rgba(232,62,140,.25);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d0f17;--card:#2b1620;--text:#ffe6f0;--accent:#ff6fae;--accent2:#4a2336;--shadow:rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#1d0f17;--card:#2b1620;--text:#ffe6f0;--accent:#ff6fae;--accent2:#4a2336;--shadow:rgba(0,0,0,.5)}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:'Hind Siliguri','Noto Sans Bengali','Segoe UI',sans-serif;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card{background:var(--card);border-radius:24px;padding:32px 24px;width:min(92vw,420px);text-align:center;box-shadow:0 10px 40px var(--shadow)}
+.emoji{font-size:64px;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+h1{font-size:26px;margin:12px 0 22px;line-height:1.4}
+.btns{display:flex;flex-direction:column;gap:12px}
+button{font:inherit;font-weight:600;font-size:18px;padding:14px 18px;border:0;border-radius:14px;cursor:pointer;background:var(--accent);color:#fff;transition:transform .15s}
+button.alt{background:var(--accent2);color:var(--text)}
+button:active{transform:scale(.96)}
+.hidden{display:none}
+#no{z-index:10}
+.small{font-size:14px;opacity:.7;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="card" id="s1">
+  <div class="emoji">🤨</div>
+  <h1>তুমি কি কিপ্টা নাকি?</h1>
+  <div class="btns">
+    <button onclick="go(2)">আমি কিপ্টা</button>
+    <button class="alt" onclick="go(2)">না, আমি কিপ্টা না, হাড় কিপ্টা</button>
+  </div>
+</div>
+
+<div class="card hidden" id="s2">
+  <div class="emoji">🍕</div>
+  <h1>তুমি কি ট্রিট দিতে চাচ্ছো?</h1>
+  <div class="btns">
+    <button onclick="go(3)">হুম্মম</button>
+    <button class="alt" id="no">না</button>
+  </div>
+  <div class="small">"না" বাটনটা ধরতে পারলে ধরো 😏</div>
+</div>
+
+<div class="card hidden" id="s3">
+  <div class="emoji">🎉🍔🎉</div>
+  <h1>জানতাম নাহিদা, তুমি খাওয়াবা! 😎<br>Thanks for your treat 💖</h1>
+</div>
+
+<script>
+function go(n){
+  for(var i=1;i<=3;i++) document.getElementById('s'+i).classList.add('hidden');
+  document.getElementById('s'+n).classList.remove('hidden');
+  if(n===3) confetti();
+}
+var no=document.getElementById('no');
+function dodge(e){
+  if(e&&e.preventDefault) e.preventDefault();
+  no.style.position='fixed';
+  var w=window.innerWidth-no.offsetWidth-16, h=window.innerHeight-no.offsetHeight-16;
+  no.style.left=Math.max(8,Math.random()*w)+'px';
+  no.style.top=Math.max(8,Math.random()*h)+'px';
+}
+['mouseenter','touchstart','pointerdown','click'].forEach(function(ev){no.addEventListener(ev,dodge,{passive:false});});
+function confetti(){
+  var e=['🎉','🍔','🍕','🍟','💖','🍦'];
+  for(var i=0;i<40;i++){
+    var s=document.createElement('span');
+    s.textContent=e[i%e.length];
+    s.style.cssText='position:fixed;top:-30px;left:'+Math.random()*100+'vw;font-size:'+(20+Math.random()*20)+'px;transition:transform '+(2+Math.random()*2)+'s linear;pointer-events:none';
+    document.body.appendChild(s);
+    (function(s){setTimeout(function(){s.style.transform='translateY('+(window.innerHeight+60)+'px) rotate(360deg)';},50);})(s);
+  }
+}
+</script>
+</body>
+</html>
